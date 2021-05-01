@@ -1,4 +1,4 @@
-============================== Overview ==============================
+# Overview
 
 This is my take on a benchtop atx-based power supply. It has the following notable features:
 
@@ -10,7 +10,7 @@ This is my take on a benchtop atx-based power supply. It has the following notab
 * One selector option that functions as a free "voltmeter" of arbitrary voltage.
 * Several USB ports for charging 5V devices. One USB port is connected to the voltmeter/ammeter.
 
-============================== Mistakes I Made (things I might fix eventually) ==============================
+# Mistakes I Made (things I might fix eventually)
 
 My original design had a seperate "earth ground" pin, different from the ATX grounds. I did not realize, at the time,
 that my ATX power supply connected its ground to earth ground. So this was pointless.
@@ -30,7 +30,7 @@ I do not use the ground + power dual-banana plugs, so this is not an issue for m
 I should have been more careful when selecting the current-limiting resistors for the LEDs. The "power on" and "standby"
 LEDs are the wrong brightness level (power on should be brighter, but it's dimmer).
 
-============================== Modifying the Print ==============================
+# Modifying the Print
 
 This model was specifically designed for the parts I had on hand. It assumes the use of simple switches, 3mm LEDs, cheap ports, 
 small fuse holders, and a particular switch. With that said, everything is designed in a fairly modular manner. You should
@@ -44,7 +44,7 @@ I highly recommend small test-prints to determine what sizes you need for your v
 Each panel part has basically been designed for the front panel to be flush with the x-y axis. The rather odd 180 degree
 rotation for the final parts for final prints is just to simplify import of the resulting .stl to Cura.
 
-============================== ATX PSU Caveats ==============================
+# ATX PSU Caveats
 
 This was designed for an older ATX power supply that had a -12V and -5V rails with useful-enough amperages (~1amp).
 https://xdevs.com/doc/Standards/ATX/ATX12V_Power_Supply_Design_Guide_Rev1.1.pdf
@@ -64,7 +64,7 @@ unit is wall-powered.
 believes that it is supplying power correctly. I consider this okay because each output is independently signalling that it is
 electrically active.
 
-============================== Voltmeter/Ammeter Caveats ==============================
+# Voltmeter/Ammeter Caveats
 
 The voltmeters that I used here had 5 wires. Two thick "ammeter" wires and three thin "voltmeter wires". The design _requires_
 that the ground for powering the voltmeter display is the same as the "low" side of the ammeter, effectively meaning that we must measure
@@ -80,7 +80,7 @@ current on the low side of our circuit.
 
 These voltmeters are often a little bit off, but have a potentiometer on the back that you can use to tune them.
 
-============================== Parts I Used ==============================
+# Parts I Used
 
 * An old ATX power supply (very old)
 * A small power switch... banggood no longer sells the model I bought from them.
@@ -120,7 +120,7 @@ Parts I wished I used:
     * Trim those wires, and use the female connection as THE connector to the front panel. That leaves you with a simple, single
       connector to the power supply, and no modification to the power supply at all.
 
-============================== Printing Instructions ==============================
+# Printing Instructions
 
 * Open the "PSU Panel.scad" file with OpenSCAD.
      * Make sure proto=false unless you're editing the file. That setting is just to render faster when developing.
@@ -146,7 +146,7 @@ Parts I wished I used:
 
 * After this is done and while you're fiddling with the electronic components, soldering and gluing... print the Box.
 
-============================== Assembly Instructions ==============================
+# Assembly Instructions
 The use of Wago-style connectors makes this project significantly easier than it would be otherwise. The panel can be
 completely assembled, and only afterwards plugged into the PSU. A better alternative design would be to buy an ATX extender
 or expander, remove the male-plug, and connect all of the wires there.
