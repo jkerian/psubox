@@ -10,13 +10,15 @@ This is my take on a benchtop atx-based power supply. It has the following notab
 * One selector option that functions as a free "voltmeter" of arbitrary voltage.
 * Several USB ports for charging 5V devices. One USB port is connected to the voltmeter/ammeter.
 
+Images are available on the wiki: https://github.com/jkerian/psubox/wiki
+
 # Mistakes I Made (things I might fix eventually)
 
-My original design had a seperate "earth ground" pin, different from the ATX grounds. I did not realize, at the time,
+My original design had a seperate "earth ground" post, different from the ATX grounds. I did not realize, at the time,
 that my ATX power supply connected its ground to earth ground. So this was pointless.
 
-Although the 5V pin is switched, the metered USB port is not.  This is a little bit confusing. I think this would have
-been easier to see without the "earth ground" post, as I could have located the metered USB port in the opeen spot where
+Although the 5V post is switched, the metered USB port is not.  This is a little bit confusing. I think this would have
+been easier to see without the "earth ground" post, as I could have located the metered USB port in the open spot where
 that earth ground post was. Perhaps another option would have been to locate the 5V + metered USB at an extreme end of
 the selector switch. I'm not sure of the exact solution here, but this interface causes occasional confusion.
 
@@ -30,11 +32,15 @@ I do not use the ground + power dual-banana plugs, so this is not an issue for m
 I should have been more careful when selecting the current-limiting resistors for the LEDs. The "power on" and "standby"
 LEDs are the wrong brightness level (power on should be brighter, but it's dimmer).
 
+In retrospect I wish the box had slightly thicker walls. 2mm is kindof thin.
+
 # Modifying the Print
 
 This model was specifically designed for the parts I had on hand. It assumes the use of simple switches, 3mm LEDs, cheap ports, 
 small fuse holders, and a particular switch. With that said, everything is designed in a fairly modular manner. You should
 be able to modify different parts as you desire. Feel free to fork this and please share your modifications for others.
+
+The vent panel on the bottom of the box was specifically made to match the psu I had. You may want different vents,
 
 The `proto` variable is specifically designed to speed up non-final rendering for modifications. Set it to true while you're
 positioning things, set it to false for your final print. 
@@ -44,10 +50,12 @@ I highly recommend small test-prints to determine what sizes you need for your v
 Each panel part has basically been designed for the front panel to be flush with the x-y axis. The rather odd 180 degree
 rotation for the final parts for final prints is just to simplify import of the resulting .stl to Cura.
 
+The model makes extensive use of my chamcube module, which produces a cube with rounded corners.
+
 # ATX PSU Caveats
 
-This was designed for an older ATX power supply that had a -12V and -5V rails with useful-enough amperages (~1amp).
-https://xdevs.com/doc/Standards/ATX/ATX12V_Power_Supply_Design_Guide_Rev1.1.pdf
+This was designed for an older ATX power supply that had a -12V and -5V rails with useful-enough amperages (~1amp). The 12V ATX spec is
+a useful reference: https://xdevs.com/doc/Standards/ATX/ATX12V_Power_Supply_Design_Guide_Rev1.1.pdf
 
 This power supply also had fairly poor current supply on the VSB +5 V supply... too little to bother with an "always powered" usb port.
 If your supply has this, I would consider re-wiring the USB ports to that supply.
@@ -115,7 +123,7 @@ These voltmeters are often a little bit off, but have a potentiometer on the bac
     * 4 that fit your power supply and can be used to mount it
     * 6 to mount the front-panel onto the box
 
-Parts I wished I used:
+## Parts I wished I used
 * An ATX extender plug. (https://www.amazon.com/StarTech-8-Inch-Power-Extension-ATX24POWEXT/dp/B000FL60AI/)
     * Trim those wires, and use the female connection as THE connector to the front panel. That leaves you with a simple, single
       connector to the power supply, and no modification to the power supply at all.
@@ -137,10 +145,11 @@ Parts I wished I used:
     * Enable Z-hop, set the Z-hop height to at least 0.5 (I recommend a little higher... 0.6 maybe?)
     * Do not generate a skirt or raft or anything...
     * You can generate support... but be sure that your slicer isn't going to "support" in the holes for the text
+        * You probably need to generate supports for the USB port backing.
     * Slice and export to Panel.gcode
     * If your slicer (like cura) makes a purge line in a consistent spot... move that purge line over in the X coordinates.
         For me that was replacing early "G1 X0.1 ... ; Move to start position" lines with "G1 X8.1..."
-* Setup your text filament and begin printing.
+* Setup your text filament and begin printing PanelText.gcode.
 * At the end of the print everything stays hot... swap filaments to your panel color and kick the panel print off.
     * This _should_ print the panel "around" your text, embedding it in the panel.
 
@@ -152,7 +161,7 @@ completely assembled, and only afterwards plugged into the PSU. A better alterna
 or expander, remove the male-plug, and connect all of the wires there.
 
 What I actually did:
-* Insert all of the Fuse olders and switches, and wire them, remembering the heat-shrink.
+* Insert all of the Fuse holders and switches, and wire them, remembering the heat-shrink.
 * Insert all of the banana plug sockets and wire them, leaving open connections for the LEDs, and remembering the heat-shrink.
 * Insert of the LEDs and wire them, as well soldering open wires for the voltmeter switch to the three positive posts.
 * Insert the metered USB port, negative is electrically common with the ammeter measuring port, positive with the positive 5V post.

@@ -1,3 +1,4 @@
+// all measurements in mm
 PanelThickness = 5;
 WallThickness = 2;
 MountScrewDiameter = 4.8;
@@ -8,13 +9,80 @@ FrontPanelLip = PanelThickness*2;
 OutsideChamfer = 2.5;
 InternalChamfer = 1;
 
-proto=true;
+proto=false;
 target = "panel";   // One of "panel", "text", "box"
 
 $fn=50;
-use <../chamcube/chamcube.scad>
 
-module abox(size, chamfer, mode="all", center=false) {
+// A module to make cubes with rounded corners
+// size and center are the same as cube()
+// chamfer is the radius of the rounded chamfer, this produces strange effects if greater than half a size
+// mode tells the module which sides to round
+//   "around" - The outside corners "around" the cube
+//   "corner" - All edges extending from one rounded corner are rounded
+//   "side" - All edges extending from two adjacent rounded corners are rounded
+//   "top" - All corners around the top are rounded, as well as all edges between and all vertical edges
+module chamcube(size, chamfer, center=false, mode) { // Valid Modes: "around", "top", "side" or "corner"
+    if (!is_list(size)) { size = [size, size, size]; }
+    function top_corners_centered(size) = [  [-size[0]/2, -size[1]/2, size[2]/2],
+                                    [-size[0]/2, size[1]/2, size[2]/2], 
+                                    [size[0]/2, size[1]/2, size[2]/2],
+                                    [size[0]/2, -size[1]/2, size[2]/2], 
+                                    ];
+    module top_1(mode, r) {
+        if (mode == "around") cylinder(h=r*2, r=r, center=true);
+        else sphere(r=r);
+    }
+    module top_2(mode, r) {
+        if (mode == "around") cylinder(h=r*2, r=r, center=true);
+        else if (mode == "corner") rotate([90,0,0]) cylinder(h=r*2, r=r, center=true);
+        else sphere(r=r);
+    }
+    module top_3(mode, r) {
+        if (mode == "around") cylinder(h=r*2, r=r, center=true);
+        else if (mode == "corner") cube(r*2, center=true);
+        else if (mode == "side") rotate([0,90,0]) cylinder(h=r*2, r=r, center=true);
+        else sphere(r=r);
+    }
+    module top_4(mode, r) {
+        if (mode == "around") cylinder(h=r*2, r=r, center=true);
+        else if (mode == "corner" || mode == "side") rotate([0,-90,0]) cylinder(h=r*2, r=r, center=true);
+        else sphere(r=r);
+    }
+    module bot_1(mode, r) {
+        cylinder(h=r*2, r=r, center=true);
+    }
+    module bot_2(mode, r) {
+        if (mode == "corner") cube(r*2, center=true);
+        else cylinder(h=r*2, r=r, center=true);
+    }
+    module bot_3(mode, r) {
+        if (mode == "corner" || mode == "side") cube(r*2, center=true);
+        else cylinder(h=r*2, r=r, center=true);
+    }
+    module bot_4(mode, r) {
+        if (mode == "corner" || mode == "side") cube(r*2, center=true);
+        else cylinder(h=r*2, r=r, center=true);
+    }
+    function adjust(v1, v2) = [v1.x*v2.x, v1.y*v2.y, v1.z*v2.z];
+    translate(center?[0,0,0]:size/2) {
+        hull() {
+            corner_move = size/2 - [chamfer, chamfer, chamfer];
+            translate(adjust(corner_move, [+1,+1,+1])) top_1(mode, chamfer);
+            translate(adjust(corner_move, [+1,-1,+1])) top_2(mode, chamfer);
+            translate(adjust(corner_move, [-1,-1,+1])) top_3(mode, chamfer);
+            translate(adjust(corner_move, [-1,+1,+1])) top_4(mode, chamfer);
+            
+            translate(adjust(corner_move, [+1,+1,-1])) bot_1(mode, chamfer);
+            translate(adjust(corner_move, [+1,-1,-1])) bot_2(mode, chamfer);
+            translate(adjust(corner_move, [-1,-1,-1])) bot_3(mode, chamfer);
+            translate(adjust(corner_move, [-1,+1,-1])) bot_4(mode, chamfer);
+        }
+    }
+}
+
+
+module abox(size, chamfer, mode, center=false) {
     if (proto) cube(size, center=center);
     else chamcube(size, chamfer, mode=mode, center=center);
 }
