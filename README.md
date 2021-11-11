@@ -127,6 +127,7 @@ These voltmeters are often a little bit off, but have a potentiometer on the bac
 * An ATX extender plug. (https://www.amazon.com/StarTech-8-Inch-Power-Extension-ATX24POWEXT/dp/B000FL60AI/)
     * Trim those wires, and use the female connection as THE connector to the front panel. That leaves you with a simple, single
       connector to the power supply, and no modification to the power supply at all.
+* An XT60 plug. I think a mountable XT60 plug in place of the useless green ground connection, supplying multiple amps of 12V (via multiple +12V wires and grounds) would be handy (this may require rethinking the fusing). The idea is that if I add a variable power supply or other "down the line" power supplies, I'd use XT60 as the connector. Because this is designed for a secondary power supply to feed from, we won't be running this through the voltmeter/ammeter.
 
 # Printing Instructions
 
